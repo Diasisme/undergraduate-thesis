@@ -1,15 +1,26 @@
 import pandas as pd
 import numpy as np
+from sklearn import svm
 import database as db
 
-archive = db.Database() # initiation class from other file
+
+class Prediction:
+    archive = db.Database()                                                                                 # initiation class from other file
+
+    def prediction(self):
+        self.df = pd.read_sql_query('select * from rain', self.archive.conn)                                # make dataframe from database climate.db
+        self.df['plantingTime_value'] = np.where(self.df['planting_time']!= 'BURUK', True, False)           # make new output column
+        self.df["plantingTime_value"].replace({"True":"0","False":"1"}, inplace= True)
+        print(self.df.head())
 
 
 
-def test():             #function test
-    print(pd.read_csv("D:\\Prediction_Thesis\\csv\\Climate_new_rev.csv"))
 
-test()  # execute function test
+predict = Prediction()
+
+predict.prediction()
+
+
 
 
 
