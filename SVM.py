@@ -1,23 +1,54 @@
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import OrdinalEncoder
 from sklearn import svm
+from sklearn.feature_selection import RFE
+from sklearn.linear_model import LogisticRegression
 import database as db
 
 
 class Prediction:
 
     def prediction_SVM(self):
-        # make dataframe from database climate.db
+        # Load dataframe from csv
         self.df = pd.read_csv('D:\Prediction_Thesis\csv\Climate.csv')
 
         #Transforming data
-        self.df = self.df.replace(', ' , '-', regex= True)
-        self.df['planting_time'] = LabelEncoder.fit_transform(self.df['planting_time'])
-        self.df_enc = pd.get_dummies(self.df, columns=["region"])
+        self.df = self.df.replace(', ' , '-', regex= True)  #replace all comma to dash in dataframe
+        self.df['date'] = pd.to_datetime(self.df['date'])
+        le = LabelEncoder() #initiation LabelEncoder
+        oe = OrdinalEncoder() #initiation OrdnialEncoder
+        self.temp = np.array(self.df['region']).reshape(-1,1) #reshape 'region' value
+        self.df['planting_time'] = le.fit_transform(self.df['planting_time'])  #change value in 'planting_time'
+        self.df['region'] = oe.fit_transform(self.temp) #change value in 'planting_time'
+        print(self.df.head())
+
+
+        #Feature selection
+        self.array = self.df.values
+        #seperate feature and label
+        self.X = self.array[:, 1:4]  #value X for feature
+        self.y = self.array[:,4]   #value Y for label
+        self.y = self.y.astype('int') #change value output to inetger data type
+        self.model = LogisticRegression(solver='lbfgs', max_iter=10000)
+        self.rfe = RFE(self.model, 3) #set limit optimal feature that can be used
+        self.fit = self.rfe.fit(self.X, self.y) #find optimal parameter
+        print((self.fit.n_features_))
+        print((self.fit.support_))
+        print((self.fit.ranking_))
+
+
+
+
+'''
+        
         pd.set_option('display.max_columns', None)
-        print(self.df_enc.head())
-        print(self.df_enc.dtypes)
+        
+        print(self.df.dtypes)
+
+'''
+
 
 
 
