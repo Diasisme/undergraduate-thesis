@@ -2,15 +2,15 @@ import pandas as pd
 import numpy as np
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import OrdinalEncoder
-from sklearn import svm
 from sklearn.feature_selection import RFE
 from sklearn.linear_model import LogisticRegression
 import database as db
+import gridSearch as gS
 
 
 class Prediction:
 
-    def prediction_SVM(self):
+    def predict(self):
         # Load dataframe from csv
         self.df = pd.read_csv('D:\Prediction_Thesis\csv\Climate.csv')
 
@@ -21,8 +21,8 @@ class Prediction:
         oe = OrdinalEncoder() #initiation OrdnialEncoder
         self.temp = np.array(self.df['region']).reshape(-1,1) #reshape 'region' value
         self.df['planting_time'] = le.fit_transform(self.df['planting_time'])  #change value in 'planting_time'
-        self.df['region'] = oe.fit_transform(self.temp) #change value in 'planting_time'
-        print(self.df.head())
+        self.df['region'] = oe.fit_transform(self.temp) #change value in 'region'
+        # print(self.df.head())
 
 
         #Feature selection
@@ -34,20 +34,13 @@ class Prediction:
         self.model = LogisticRegression(solver='lbfgs', max_iter=10000)
         self.rfe = RFE(self.model, 3) #set limit optimal feature that can be used
         self.fit = self.rfe.fit(self.X, self.y) #find optimal parameter
-        print((self.fit.n_features_))
-        print((self.fit.support_))
-        print((self.fit.ranking_))
+        # print((self.fit.n_features_))
+        # print((self.fit.support_))
+        # print((self.fit.ranking_))
 
-
-
-
-'''
-        
-        pd.set_option('display.max_columns', None)
-        
-        print(self.df.dtypes)
-
-'''
+        #prediction using SVM-GridSearch
+        predictGS = gS.GridSearch(self.X, self.y)
+        predictGS.grid_func()
 
 
 

@@ -1,5 +1,5 @@
-import SVM
+import svmPredict
 
-predict = SVM.Prediction()
+predict = svmPredict.Prediction()
 
-predict.prediction_SVM()
+predict.predict()
