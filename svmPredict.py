@@ -14,7 +14,7 @@ class Prediction:
         # Load dataframe from csv
         self.df = pd.read_csv('D:\Prediction_Thesis\csv\Climate.csv')
 
-        #Transforming data
+        # Transforming data
         self.df = self.df.replace(', ' , '-', regex= True)  #replace all comma to dash in dataframe
         self.df['date'] = pd.to_datetime(self.df['date'])
         le = LabelEncoder() #initiation LabelEncoder
@@ -25,14 +25,14 @@ class Prediction:
         # print(self.df.head())
 
 
-        #Feature selection
+        # Feature selection
         self.array = self.df.values
-        #seperate feature and label
+        # seperate feature and label
         self.X = self.array[:, 1:4]  #value X for feature
         self.y = self.array[:,4]   #value Y for label
         self.y = self.y.astype('int') #change value output to inetger data type
         self.model = LogisticRegression(solver='lbfgs', max_iter=10000)
-        self.rfe = RFE(self.model, 3) #set limit optimal feature that can be used
+        self.rfe = RFE(self.model, 2) #set limit optimal feature that can be used
         self.fit = self.rfe.fit(self.X, self.y) #find optimal parameter
         # print((self.fit.n_features_))
         # print((self.fit.support_))
