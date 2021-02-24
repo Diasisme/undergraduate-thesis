@@ -2,3 +2,16 @@
 __pycache__
 Buat belajar.txt
 database.py
+
+# Feature selection
+
+       #  # seperate feature and label
+       #  self.X = self.array[:, 1:4]  #value X for feature
+       #  self.y = self.array[:,4]   #value Y for label
+       #  self.y = self.y.astype('int') #change value output to inetger data type
+       #  self.model = LogisticRegression(solver='lbfgs', max_iter=10000)
+       #  self.rfe = RFE(self.model, 3) #set limit optimal feature that can be used
+       #  self.fit = self.rfe.fit(self.X, self.y) #find optimal parameter
+       # #print((self.fit.n_features_))
+       #  #print((self.fit.support_))
+       #  #print((self.fit.ranking_))

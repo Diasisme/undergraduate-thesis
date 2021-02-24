@@ -6,6 +6,7 @@ from sklearn.feature_selection import RFE
 from sklearn.linear_model import LogisticRegression
 import database as db
 import gridSearch as gS
+# import nelderMead as nM
 
 
 class Prediction:
@@ -22,25 +23,16 @@ class Prediction:
         self.temp = np.array(self.df['region']).reshape(-1,1) #reshape 'region' value
         self.df['planting_time'] = le.fit_transform(self.df['planting_time'])  #change value in 'planting_time'
         self.df['region'] = oe.fit_transform(self.temp) #change value in 'region'
+        self.X = self.df.iloc[:, 2:4].values
+        self.y = self.df.iloc[:, 4].values
         # print(self.df.head())
 
 
-        # Feature selection
-        self.array = self.df.values
-        # seperate feature and label
-        self.X = self.array[:, 1:4]  #value X for feature
-        self.y = self.array[:,4]   #value Y for label
-        self.y = self.y.astype('int') #change value output to inetger data type
-        self.model = LogisticRegression(solver='lbfgs', max_iter=10000)
-        self.rfe = RFE(self.model, 2) #set limit optimal feature that can be used
-        self.fit = self.rfe.fit(self.X, self.y) #find optimal parameter
-        # print((self.fit.n_features_))
-        # print((self.fit.support_))
-        # print((self.fit.ranking_))
-
         #prediction using SVM-GridSearch
-        predictGS = gS.GridSearch(self.X, self.y)
+        predictGS = gS.Optimization(self.X, self.y)
         predictGS.grid_func()
+
+        # predictNM =nM.Optimization(self.X, self.y)
 
 
 
