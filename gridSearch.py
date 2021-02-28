@@ -13,7 +13,7 @@ class Optimization:
         self.y = y
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.X, self.y, test_size=0.30)
         # define parameter range
-        self.param_grid = {'C': np.logspace(1, 10, num=10), 'gamma': np.logspace(1, 10, num=10), 'kernel': ['rbf']}
+        self.param_grid = {'C': np.logspace(0, 3), 'gamma': np.logspace(0, 3), 'kernel': ['rbf']}
 
     def grid_func(self):
         # initiation for GridSearch

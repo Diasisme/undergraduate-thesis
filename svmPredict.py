@@ -6,7 +6,7 @@ from sklearn.feature_selection import RFE
 from sklearn.linear_model import LogisticRegression
 import database as db
 import gridSearch as gS
-# import nelderMead as nM
+import nelderMead as nM
 
 
 class Prediction:
@@ -29,10 +29,11 @@ class Prediction:
 
 
         #prediction using SVM-GridSearch
-        predictGS = gS.Optimization(self.X, self.y)
-        predictGS.grid_func()
+        # predictGS = gS.Optimization(self.X, self.y)
+        # predictGS.grid_func()
 
-        # predictNM =nM.Optimization(self.X, self.y)
+        predictNM =nM.Optimization(self.X, self.y)
+        predictNM.find_params()
 
 
 
