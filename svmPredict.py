@@ -29,11 +29,11 @@ class Prediction:
 
 
         #prediction using SVM-GridSearch
-        # predictGS = gS.Optimization(self.X, self.y)
-        # predictGS.grid_func()
+        predictGS = gS.Optimization(self.X, self.y)
+        predictGS.grid_func()
 
         predictNM =nM.Optimization(self.X, self.y)
-        predictNM.find_params()
+        predictNM.nm_func()
 
 
 
